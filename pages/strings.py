@@ -8,7 +8,7 @@ from pages.strings_pages import (
 
 subpages = [
     ('0 - intro', intro.page),
-    # ('1 - SMILES', smiles.page)
+    ('1 - SMILES', smiles.page)
 ]
 
 st.sidebar.markdown('## sub-topics')
