@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 from rdkit import Chem
-from rdkit.Chem.Draw import MolToImage
+from rdkit.Chem.Draw import MolToImage, IPythonConsole
 from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
 from stmol import showmol
 import py3Dmol
