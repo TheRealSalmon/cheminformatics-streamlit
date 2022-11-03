@@ -2,7 +2,7 @@ import streamlit as st
 
 import pandas as pd
 
-from rdkit_utils import smi_to_svg
+# from rdkit_utils import smi_to_svg
 
 def page():
     st.markdown("""
