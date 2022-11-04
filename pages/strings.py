@@ -136,6 +136,67 @@ def smiles_page():
     labels = ['DMSO', 'ethyl acetate']
     st_match_smi_to_mol(smiles, labels=labels, idx_offset=8)
 
+    st.markdown("""
+        ## Put a ring on it
+
+        Lastly, we need to be able to represent rings. The way SMILES represents
+        rings is to use numbers *outside* of brackets to denote connection
+        points.
+    """)
+
+    smiles = ['CCC', 'C1CC1', '[CH-]1CC1', 'C1CC1C', 'C1C(C)C1']
+    st_display_mol_with_smi(smiles, img_size=(100,100))
+
+    st.markdown("""
+        As you see, we "closed" the propane by putting `1` after the first and
+        last C of the chain. As illustrated by the deprotonated cyclopropane,
+        the `1` goes outside of the bracket. Lastly, rings can be combined with
+        branching, either by adding atoms to the ring's closing atoms or by
+        using parentheses.
+
+        A special topic within rings is the proper representation of aromatic
+        rings. Aromatic rings are unique in that there are two valid ways to
+        represent them.
+    """)
+
+    smiles = ['C1=CC=CC=C1', 'c1ccccc1', 'N1=CNC=C1', 'n1c[nH]cc1']
+    labels = ['kekulized', 'not kekulized'] * 2
+    st_display_mol_with_smi(smiles, img_size=(150,100), labels=labels)
+
+    st.markdown("""
+        You will likely find that using the *not kekulized* form is more
+        convenient as you don't need to remember where the double bonds in the
+        ring are placed. However, if you have an implicit hydrogen on one of the
+        ring atoms, you *will* need to specify it by replacing `n` with `[nH]`.
+        Otherwise, you will get an error telling you that RDKit is unable to
+        kekulize the molecule.
+
+        Representing a molecule with two rings is done by using both `1` and
+        `2`. Note that `C12` is interpreted as "C one" and "C two" rather than
+        "C twelve". However this is pretty complicated and hopefully you rarely
+        need to try and write bi/tricyclic SMILES by hand.
+    """)
+    smiles = ['C1CCCCN1c2ncccc2', 'c1cccc(cc[nH]2)c12', 'C12CC1C2']
+    st_display_mol_with_smi(smiles, img_size=(150,100))
+
+    st.markdown("""
+        ### Your turn!
+    """)
+
+    smiles = ['C1CC=CCC1', 'N1C(=O)CC1', 'c1c(C)[nH]c(OC)c1']
+    st_match_smi_to_mol(smiles, idx_offset=10)
+
+    st.markdown("""
+        ## Conclusion
+
+        Congratulations on reaching the end! Hopefully this was a useful primer
+        on SMILES strings. SMILES may not impress you quite yet, but the more
+        you use them, the more you will appreciate the simplicity and power of
+        representing complex molecules as "simple" 1D sequences of letters,
+        numbers, and symbols. Without such a representation, cheminformatics
+        would be far more complicated and difficult.
+    """)
+
 
 subpages = [
     ('0 - intro', intro_page),

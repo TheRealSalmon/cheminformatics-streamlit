@@ -10,8 +10,8 @@ def mol_to_svg(mol, img_size=(500, 300), show_atom_idx=False):
     svg_drawer.drawOptions().addStereoAnnotation = True
     svg_drawer.drawOptions().atomLabelDeuteriumTritium = True
     svg_drawer.drawOptions().simplifiedStereoGroupLabel = True
-    svg_drawer.drawOptions().fixedBondLength = 20
-    svg_drawer.drawOptions().fixedFontSize = 12
+    svg_drawer.drawOptions().fixedBondLength = 22
+    svg_drawer.drawOptions().fixedFontSize = 14
     svg_drawer.drawOptions().annotationFontScale = 0.6
     svg_drawer.drawOptions().setBackgroundColour((0.05, 0.05, 0.05))
     svg_drawer.DrawMolecule(mol)
