@@ -22,8 +22,8 @@ def st_match_smi_to_mol(smiles, img_size=(100, 100), labels=[], idx_offset=0):
         col.text_input('SMILES:', key=key)
         col.image(smi_to_svg(smi, img_size=img_size))
         if label != '':
-            col.markdown(f'&nbsp;&nbsp;{label}', unsafe_allow_html=True)
+            col.markdown(f'&nbsp;&nbsp;**{label}**', unsafe_allow_html=True)
         try: 
-            if smi_to_canon_smi(st.session_state[key]) == smi:
+            if smi_to_canon_smi(st.session_state[key]) == smi_to_canon_smi(smi):
                 col.success('Correct!')
         except: pass

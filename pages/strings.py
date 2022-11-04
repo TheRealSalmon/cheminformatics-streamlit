@@ -32,8 +32,8 @@ def smiles_page():
 
         ## Atoms
 
-        As with molecules, the most important building block of a SMILES is the
-        atom. Atoms are defined by their atomic symbol.
+        Just like molecules, the most important building block of a SMILES is
+        the atom. Atoms are defined by their atomic symbol.
     """)
 
     smiles = ['C', 'O', '[H]', '[Zn]', 'c1ccccc1']
@@ -86,13 +86,13 @@ def smiles_page():
     st_display_mol_with_smi(smiles)
 
     st.markdown("""
-        And there we go! We know enough now to take a few steps forward...
+        And there we go! We have the basic language needed to describe simple
+        molecules.
 
         ## Linear molecules
 
-        The easiest molecules to represent in SMILES are linear molecules. We
-        will cover branching in the next section but let's make sure we've
-        covered the basics. Here are some common solvents represented as SMILES:
+        The easiest molecules to represent in SMILES are linear molecules. Here
+        are some common solvents represented as SMILES:
     """)
 
     smiles = ['CCO', 'CCCCCC']
@@ -100,18 +100,47 @@ def smiles_page():
     st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
 
     st.markdown("""
+        SMILES don't respect "order" so `CCO` or `OCC` both represent ethanol.
+        As you see, you don't need to place a `-` between atoms to place a
+        single bond, a single bond will be placed by default. So `C-C-O` and
+        `O-C-C` are the same.
+
         ### Your turn!
     """)
 
-    smiles = ['CCOCC', 'CC#N', 'COCCOC']
-    labels = ['diethyl ether', 'acetonitrile', 'glyme']
+    smiles = ['CCOCC', 'COCCOC', 'CC#N']
+    labels = ['diethyl ether', 'glyme', 'acetonitrile']
     st_match_smi_to_mol(smiles, labels=labels, idx_offset=5)
+
+    st.markdown("""
+        ## Branched molecules
+
+        As we know, molecules are not always linear and so we need a way to
+        represent branches in molecules. This is done by wrapping the branching
+        atoms in parentheses.
+    """)
+
+    smiles = ['ClC(Cl)Cl', 'CN(C)C=O']
+    labels = ['chloroform', 'DMF']
+    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
+
+    st.markdown("""
+        While we represent chloroform as `ClC(Cl)Cl`, it would be just as valid
+        to put `C` first as `C(Cl)(Cl)Cl`. Furthermore, you can put multiple
+        atoms within parentheses, ie. DMF can be both `CN(C)C=O` or `CN(C=O)C`.
+
+        ### Your turn!
+    """)
+
+    smiles = ['CS(=O)C', 'CCOC(=O)C']
+    labels = ['DMSO', 'ethyl acetate']
+    st_match_smi_to_mol(smiles, labels=labels, idx_offset=8)
+
 
 subpages = [
     ('0 - intro', intro_page),
     ('1 - SMILES', smiles_page),
 ]
-
 st.sidebar.markdown('## sub-topics')
 subpage = st.sidebar.selectbox(
     'select page',
