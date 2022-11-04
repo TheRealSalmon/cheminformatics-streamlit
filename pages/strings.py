@@ -16,7 +16,7 @@ def intro_page():
         that all play their own role in cheminformatics. But no worries, we'll
         take them on one-by-one.
 
-        Navigate to the sidebar and select a *sub-topic* to continue.
+        Navigate to the next page using the side-bar.
     """)
 
 def smiles_page():
@@ -197,10 +197,14 @@ def smiles_page():
         would be far more complicated and difficult.
     """)
 
+def smarts_page():
+    st.markdown('meep')
+
 
 subpages = [
     ('0 - intro', intro_page),
     ('1 - SMILES', smiles_page),
+    ('2 - SMARTS', smarts_page),
 ]
 st.sidebar.markdown('## sub-topics')
 subpage = st.sidebar.selectbox(
