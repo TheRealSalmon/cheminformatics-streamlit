@@ -20,3 +20,6 @@ def mol_to_svg(mol, img_size=(500, 300), show_atom_idx=False):
 
 def smi_to_svg(smi, img_size=(500, 300), show_atom_idx=False):
     return mol_to_svg(Chem.MolFromSmiles(smi), img_size, show_atom_idx)
+
+def smi_to_canon_smi(smi):
+    return Chem.MolToSmiles(Chem.MolFromSmiles(smi))

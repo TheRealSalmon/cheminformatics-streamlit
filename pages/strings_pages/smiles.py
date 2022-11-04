@@ -1,8 +1,11 @@
 import streamlit as st
 
 import pandas as pd
+from rdkit import Chem
 
-from rdkit_utils import smi_to_svg
+from rdkit_utils import smi_to_svg, smi_to_canon_smi
+from streamlit_utils import st_display_mol_with_smi, st_match_smi_to_mol
+
 
 def page():
     st.markdown("""
@@ -22,10 +25,7 @@ def page():
     """)
 
     smiles = ['C', 'O', '[H]', '[Zn]', 'c1ccccc1']
-    columns = [col for col in st.columns(5)]
-    for smi, col in zip(smiles, columns):
-        col.image(smi_to_svg(smi, img_size=(100, 100)))
-        col.markdown(f'&nbsp;&nbsp;{smi}', unsafe_allow_html=True)
+    st_display_mol_with_smi(smiles)
 
     st.markdown("""
         In general, just the atomic symbol is sufficient. However, for hydrogen
@@ -42,10 +42,7 @@ def page():
     """)
 
     smiles = ['C', '[13C]', '[13CH4]', '[CH3+]', '[Fe+2]',]
-    columns = [col for col in st.columns(5)]
-    for smi, col in zip(smiles, columns):
-        col.image(smi_to_svg(smi, img_size=(100, 100)))
-        col.markdown(f'&nbsp;&nbsp;{smi}', unsafe_allow_html=True)
+    st_display_mol_with_smi(smiles)
 
     st.markdown("""
         As we see, specifying atom-level properties requires the use of
@@ -55,11 +52,47 @@ def page():
         * The formal charge is specified by adding a `+` or `-` after the atom symbol/# of hydrogens. For multiple charges, an additional number can be put after the charge, ie. `[Fe+2]`.
 
         ### Your turn!
+
+        Write a SMILES string that matches the molecule depicted below.
         """)
 
     smiles = ['N', '[H]', '[He]', '[OH-]', '[18OH2]']
-    columns = [col for col in st.columns(5)]
-    keys = [f'smi{i}' for i in range(5)]
-    for smi, col, key in zip(smiles, columns, keys):
-        col.text_input
-        col.write(smi) 
+    st_match_smi_to_mol(smiles)
+
+    st.markdown("""
+        ## Bonds
+
+        After learning to represent atoms, next we come to bonds. Bonds are far
+        simpler than atoms as they come only in 4 categories:
+        * single
+        * double
+        * triple
+        * aromatic
+    """)
+
+    smiles = ['C-C', 'C=C', 'C#C', 'C:C']
+    st_display_mol_with_smi(smiles)
+
+    st.markdown("""
+        And there we go! We know enough now to take a few steps forward...
+
+        ## Linear molecules
+
+        The easiest molecules to represent in SMILES are linear molecules. We
+        will cover branching in the next section but let's make sure we've
+        covered the basics. Here are some common solvents represented as SMILES:
+    """)
+
+    smiles = ['CCO', 'CCCCCC']
+    labels = ['ethanol', 'n-hexane']
+    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
+
+    st.markdown("""
+        ### Your turn!
+    """)
+
+    smiles = ['CCOCC', 'CC#N', 'COCCOC']
+    labels = ['diethyl ether', 'acetonitrile', 'glyme']
+    st_match_smi_to_mol(smiles, labels=labels, idx_offset=5)
+
+

@@ -20,7 +20,7 @@ st.markdown("""
 
     If you're here, you're probably already interested in cheminformatics.
     But it can be rather hard to learn. Tutorials are spread out all over
-    the place and documentation can be incredibly hard to read for beginners.
+    the place and documentation can be incredibly hard to read.
 
     With this webapp I will help you teach yourself how to use
     computers to represent molecules, reactions, and even your chemical
@@ -40,7 +40,6 @@ LEFT.text_input(
 try:
     mol = Chem.MolFromSmiles(st.session_state.smi)
     LEFT.image(mol_to_svg(mol))
-    # LEFT.image(MolToImage(mol, size=(500, 300)))
     mol = Chem.AddHs(mol)
     EmbedMolecule(mol)
     MMFFOptimizeMolecule(mol)
