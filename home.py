@@ -3,7 +3,7 @@ from PIL import Image
 from rdkit import Chem
 from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
 from stmol import showmol
-from streamlit_ace import st_ace
+# from streamlit_ace import st_ace
 import py3Dmol
 
 from streamlit_utils import st_display_3dmol
@@ -44,9 +44,9 @@ try:
 except:
     RIGHT.markdown('invalid molecule')
 
-code = st_ace(
-    language='python',
-    theme='twilight',
-    font_size=12,
-)
+# code = st_ace(
+#     language='python',
+#     theme='twilight',
+#     font_size=12,
+# )
  

@@ -20,6 +20,8 @@ def intro_page():
     """)
 
 def smiles_page():
+    IDX_OFFSET = 0
+
     st.markdown("""
         # SMILES
 
@@ -46,7 +48,15 @@ def smiles_page():
 
         Atomic symbols usually have their first letter capitalized. However, the
         first letter may be lowercase if it is aromatic like this benzene.
+    """)
 
+    st.info("""
+        Hydrogen is unique as the only one-letter atom that cannot exist outside
+        of a bracket. This is because SMILES treats hydrogen as a second class
+        citizen and it usually exists as an accessory to a heavy atom.
+    """)
+
+    st.markdown("""
         SMILES also allows us to specify a few atom-level properties such as:
         * isotope
         * &#8203;# of hydrogens
@@ -59,17 +69,32 @@ def smiles_page():
     st.markdown("""
         As we see, specifying atom-level properties requires the use of
         brackets.
-        * The isotope is specified by the numbers that PRECEDE the atomic symbol, ie. `[13C]`.
-        * The # of hydrogens is specified by adding `H` to the end of the atomic symbol and putting the # of hydrogens after the `H`, ie. `[CH3]`.
-        * The formal charge is specified by adding a `+` or `-` after the atom symbol/# of hydrogens. For multiple charges, an additional number can be put after the charge, ie. `[Fe+2]`.
+        * The isotope (superscript numbers) is specified by the numbers that PRECEDE the atomic symbol, ie. `[13C]`.
+        * The # of hydrogens is specified by adding `H#` to the end of the atomic symbol and where # is the number of hydrogens, ie. `[CH3]`.
+        * The formal charge is specified by adding a `+` or `-` after the atomic symbol/# of hydrogens. For multiple charges, an additional number can be put after the charge, ie. `[Fe+2]`.
+    """)
 
+    st.info("""
+        When an atom is specified without brackets, Hs are added implicitly. So
+        `C` gets translated to `[CH4]` automatically. However, once we add
+        brackets, we take complete control of the SMILES string and so we need
+        to manually add the Hs ourselves.
+    """)
+
+    st.markdown("""
         ### Your turn!
 
         Write a SMILES string that matches the molecule depicted below.
         """)
 
+    st.info("""
+        Don't forget that SMILES are CaPs-SeNsItIvE. Uppercase means aliphatic/
+        non-aromatic while lowercase means aromatic.
+    """)
+
     smiles = ['N', '[H]', '[He]', '[OH-]', '[18OH2]']
-    st_match_smi_to_mol(smiles)
+    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
 
     st.markdown("""
         ## Bonds
@@ -86,12 +111,30 @@ def smiles_page():
     st_display_mol_with_smi(smiles)
 
     st.markdown("""
+        ### Your turn!
+    """)
+
+    smiles = ['C=O', 'C#N', 'CC', 'C=C=C']
+    st_match_smi_to_mol(smiles, img_size=(150,100), idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
+
+    st.markdown("""
         And there we go! We have the basic language needed to describe simple
         molecules.
+    """)
 
+    st.info("""
+        You may notice that `CC` and `C-C` are the same thing. This is because
+        SMILES will automatically guess that the missing bond between `C` and
+        `C` is a single bond. This is the same for `cc` and `c:c`. SMILES will
+        guess that the bond between the two aromatic atoms is an aromatic bond.
+    """)
+
+    st.markdown("""
         ## Linear molecules
 
-        The easiest molecules to represent in SMILES are linear molecules. Here
+        The easiest molecules to represent in SMILES are linear molecules as
+        they can be represented as a simple sequence of atoms and bonds. Here
         are some common solvents represented as SMILES:
     """)
 
@@ -99,25 +142,23 @@ def smiles_page():
     labels = ['ethanol', 'n-hexane']
     st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
 
-    st.markdown("""
-        SMILES don't respect "order" so `CCO` or `OCC` both represent ethanol.
-        As you see, you don't need to place a `-` between atoms to place a
-        single bond, a single bond will be placed by default. So `C-C-O` and
-        `O-C-C` are the same.
+    st.info("""SMILES don't respect "order" so `CCO` or `OCC` are equivalent.""")
 
+    st.markdown("""
         ### Your turn!
     """)
 
     smiles = ['CCOCC', 'COCCOC', 'CC#N']
     labels = ['diethyl ether', 'glyme', 'acetonitrile']
-    st_match_smi_to_mol(smiles, labels=labels, idx_offset=5)
+    st_match_smi_to_mol(smiles, labels=labels, idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
 
     st.markdown("""
         ## Branched molecules
 
         As we know, molecules are not always linear and so we need a way to
         represent branches in molecules. This is done by wrapping the branching
-        atoms in parentheses.
+        atom(s) in parentheses.
     """)
 
     smiles = ['ClC(Cl)Cl', 'CN(C)C=O']
@@ -134,7 +175,8 @@ def smiles_page():
 
     smiles = ['CS(=O)C', 'CCOC(=O)C']
     labels = ['DMSO', 'ethyl acetate']
-    st_match_smi_to_mol(smiles, labels=labels, idx_offset=8)
+    st_match_smi_to_mol(smiles, labels=labels, idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
 
     st.markdown("""
         ## Put a ring on it
@@ -184,7 +226,31 @@ def smiles_page():
     """)
 
     smiles = ['C1CC=CCC1', 'N1C(=O)CC1', 'c1c(C)[nH]c(OC)c1']
-    st_match_smi_to_mol(smiles, idx_offset=10)
+    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
+
+    st.markdown("""
+        ## Chirality
+
+        The last topic to be covered with SMILES is chirality. If the chiral
+        center has a hydrogen, you must specify it as well with `@H` or `@@H`.
+        If the chiral center has no hydrogens, you specify chirality with just a
+        `@` or `@@`. 
+    """)
+
+    smiles = ['CC(F)CC', 'C[C@H](F)CC', 'C[C@@H](F)CC', 'C[C@](F)(Cl)CC', 'C[C@@](Cl)(F)CC']
+    st_display_mol_with_smi(smiles, img_size=(150,100))
+
+    st.markdown("""
+        ### Your turn!
+
+        This one is extra tough, don't worry too much about getting it right but
+        feel free to give it a try.
+    """)
+
+    smiles = ['OC(=O)[C@H](C)N', 'OC(=O)[C@@H](C)N', 'OC(=O)[C@H](CC(C)C)N']
+    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
+    IDX_OFFSET += len(smiles)
 
     st.markdown("""
         ## Conclusion
