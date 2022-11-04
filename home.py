@@ -38,6 +38,7 @@ LEFT.text_input(
 try:
     mol = Chem.MolFromSmiles(st.session_state.smi)
     LEFT.image(mol_to_svg(mol))
+    
     mol = Chem.AddHs(mol)
     EmbedMolecule(mol)
     MMFFOptimizeMolecule(mol)
