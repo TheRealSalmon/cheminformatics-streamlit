@@ -1,9 +1,6 @@
 import streamlit as st
 
-import py3Dmol
-from stmol import showmol
 from rdkit import Chem
-from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
 
 from rdkit_utils import smi_to_svg, smi_to_canon_smi
 
@@ -32,18 +29,3 @@ def st_match_smi_to_mol(smiles, img_size=(100, 100), labels=[], idx_offset=0):
             if smi_to_canon_smi(st.session_state[key]) == smi_to_canon_smi(smi):
                 col.success('Correct!')
         except: pass
-
-def st_display_3dmol(mol):
-    mol = Chem.Mol(mol)
-    mol = Chem.AddHs(mol)
-    EmbedMolecule(mol)
-    MMFFOptimizeMolecule(mol)
-    view = py3Dmol.view(width=500, height=400)
-    view.addModel(Chem.MolToMolBlock(mol), 'mol')
-    view.setBackgroundColor('black')
-    view.setStyle({'stick': {'colorscheme': 'pinkCarbon', 'radius': 0.25}})
-    view.setViewStyle(
-        {"style": "outline", "color": 'hotpink', "width": 0.04}
-    )
-    view.zoomTo()
-    showmol(view)
