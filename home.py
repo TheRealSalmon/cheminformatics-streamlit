@@ -39,19 +39,6 @@ LEFT.text_input(
 try:
     mol = Chem.MolFromSmiles(st.session_state.smi)
     LEFT.image(mol_to_svg(mol))
-
-    # mol = Chem.AddHs(mol)
-    # EmbedMolecule(mol)
-    # MMFFOptimizeMolecule(mol)
-    # view = py3Dmol.view(width=500, height=400)
-    # view.addModel(Chem.MolToMolBlock(mol), 'mol')
-    # view.setBackgroundColor('black')
-    # view.setStyle({'stick': {'colorscheme': 'pinkCarbon', 'radius': 0.25}})
-    # view.setViewStyle(
-    #     {"style": "outline", "color": 'hotpink', "width": 0.04}
-    # )
-    # view.zoomTo()
-    # with RIGHT: showmol(view)
     with RIGHT: st_display_3dmol(mol)
 except:
     RIGHT.markdown('invalid molecule')
