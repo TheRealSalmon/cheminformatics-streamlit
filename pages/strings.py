@@ -12,7 +12,7 @@ def intro_page():
         a SMILES ... or a SMARTS or a SMIRKS? Maybe you're feeling a little
         InChI? And how do you make an InChI into an InChi key?
 
-        There is a plethora of confusing and overlapping string representation
+        There is a plethora of confusing and overlapping string representations
         that all play their own role in cheminformatics. But no worries, we'll
         take them on one-by-one.
 

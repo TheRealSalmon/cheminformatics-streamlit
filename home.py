@@ -2,11 +2,8 @@ import streamlit as st
 from PIL import Image
 from rdkit import Chem
 from rdkit.Chem.Draw import MolToImage
-from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
-from stmol import showmol
-import py3Dmol
 
-# from streamlit_utils import
+from streamlit_utils import st_display_3dmol
 from rdkit_utils import mol_to_svg
 
 st.set_page_config(
@@ -40,16 +37,6 @@ LEFT.text_input(
 try:
     mol = Chem.MolFromSmiles(st.session_state.smi)
     LEFT.image(mol_to_svg(mol))
-    mol = Chem.AddHs(mol)
-    EmbedMolecule(mol)
-    MMFFOptimizeMolecule(mol)
-    view = py3Dmol.view(width=500, height=400)
-    view.addModel(Chem.MolToMolBlock(mol), 'mol')
-    view.setStyle({'stick': {}})
-    view.setViewStyle(
-        {"style": "outline", "color": 'black', "width": 0.08}
-    )
-    view.zoomTo()
-    with RIGHT: showmol(view)
+    with RIGHT: st_display_3dmol(mol)
 except:
     RIGHT.markdown('invalid molecule')
