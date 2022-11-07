@@ -11,9 +11,9 @@ from rdkit_utils import smi_to_svg, smi_to_canon_smi
 def st_display_mol_with_smi(smiles, substruct='', use_smiles=False, display_substruct=True, img_size=(150, 100), labels=[]):
     if substruct != '' and display_substruct:
         if use_smiles:
-            st.markdown(f'##### substruct SMILES: `{substruct.replace(")", "&rpar;")}`')
+            st.markdown(f'substruct SMILES: `{substruct}`', unsafe_allow_html=True)
         else:
-            st.markdown(f'##### substruct SMARTS: `{substruct.replace(")", "&rpar;")}`')
+            st.markdown(f'substruct SMARTS: `{substruct}`', unsafe_allow_html=True)
     columns = [col for col in st.columns(len(smiles))]
     if len(labels) == 0: labels = [''] * len(smiles)
     for smi, label, col in zip(smiles, labels, columns):
