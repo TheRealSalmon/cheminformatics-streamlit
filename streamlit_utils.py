@@ -8,7 +8,7 @@ from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
 from rdkit_utils import smi_to_svg, smi_to_canon_smi
 
 
-def st_display_mol_with_smi(smiles, display_smiles=True, substruct='', use_smiles=False, display_substruct=True, img_size=(150, 100), labels=[]):
+def st_display_mol_with_smi(smiles, display_smiles=False, substruct='', use_smiles=False, display_substruct=True, img_size=(150, 100), labels=[]):
     if substruct != '' and display_substruct:
         if use_smiles:
             st.markdown(f'substruct SMILES: `{substruct}`', unsafe_allow_html=True)

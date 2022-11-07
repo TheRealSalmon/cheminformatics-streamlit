@@ -26,7 +26,7 @@ def smiles_page():
     """)
 
     smiles = ['C', 'O', '[H]', '[Zn]', 'c1ccccc1']
-    st_display_mol_with_smi(smiles)
+    st_display_mol_with_smi(smiles, display_smiles=True)
 
     st.markdown("""
         In general, just the atomic symbol is sufficient. However, for hydrogen
@@ -51,7 +51,7 @@ def smiles_page():
     """)
 
     smiles = ['C', '[13C]', '[13CH4]', '[CH3+]', '[Fe+2]',]
-    st_display_mol_with_smi(smiles)
+    st_display_mol_with_smi(smiles, display_smiles=True)
 
     st.markdown("""
         As we see, specifying atom-level properties requires the use of
@@ -80,7 +80,7 @@ def smiles_page():
     """)
 
     smiles = ['N', '[H]', '[He]', '[OH-]', '[18OH2]']
-    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
+    st_match_smi_to_mol(smiles, img_size=(100,100), idx_offset=IDX_OFFSET)
     IDX_OFFSET += len(smiles)
 
     st.markdown("""
@@ -95,14 +95,14 @@ def smiles_page():
     """)
 
     smiles = ['C-C', 'C=C', 'C#C', 'C:C']
-    st_display_mol_with_smi(smiles)
+    st_display_mol_with_smi(smiles, display_smiles=True)
 
     st.markdown("""
         ### Your turn!
     """)
 
     smiles = ['C=O', 'C#N', 'CC', 'C=C=C']
-    st_match_smi_to_mol(smiles, img_size=(150,100), idx_offset=IDX_OFFSET)
+    st_match_smi_to_mol(smiles, img_size=(125,100), idx_offset=IDX_OFFSET)
     IDX_OFFSET += len(smiles)
 
     st.markdown("""
@@ -127,7 +127,7 @@ def smiles_page():
 
     smiles = ['CCO', 'CCCCCC']
     labels = ['ethanol', 'n-hexane']
-    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(200,100), labels=labels)
 
     st.info("""SMILES don't respect "order" so `CCO` or `OCC` are equivalent.""")
 
@@ -150,7 +150,7 @@ def smiles_page():
 
     smiles = ['ClC(Cl)Cl', 'CN(C)C=O']
     labels = ['chloroform', 'DMF']
-    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(200,100), labels=labels)
 
     st.markdown("""
         While we represent chloroform as `ClC(Cl)Cl`, it would be just as valid
@@ -174,7 +174,7 @@ def smiles_page():
     """)
 
     smiles = ['CCC', 'C1CC1', '[CH-]1CC1', 'C1CC1C', 'C1C(C)C1']
-    st_display_mol_with_smi(smiles, img_size=(100,100))
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(100,100))
 
     st.markdown("""
         As you see, we "closed" the propane by putting `1` after the first and
@@ -190,7 +190,7 @@ def smiles_page():
 
     smiles = ['C1=CC=CC=C1', 'c1ccccc1', 'N1=CNC=C1', 'n1c[nH]cc1']
     labels = ['kekulized', 'not kekulized'] * 2
-    st_display_mol_with_smi(smiles, img_size=(150,100), labels=labels)
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(150,100), labels=labels)
 
     st.markdown("""
         You will likely find that using the *not kekulized* form is more
@@ -206,7 +206,7 @@ def smiles_page():
         need to try and write bi/tricyclic SMILES by hand.
     """)
     smiles = ['C1CCCCN1c2ncccc2', 'c1cccc(cc[nH]2)c12', 'C12CC1C2']
-    st_display_mol_with_smi(smiles, img_size=(150,100))
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(150,100))
 
     st.markdown("""
         ### Your turn!
@@ -226,7 +226,7 @@ def smiles_page():
     """)
 
     smiles = ['CC(F)CC', 'C[C@H](F)CC', 'C[C@@H](F)CC', 'C[C@](F)(Cl)CC', 'C[C@@](Cl)(F)CC']
-    st_display_mol_with_smi(smiles, img_size=(150,100))
+    st_display_mol_with_smi(smiles, display_smiles=True, img_size=(150,100))
 
     st.markdown("""
         ### Your turn!

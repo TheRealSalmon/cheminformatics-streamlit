@@ -35,9 +35,9 @@ def smarts_1_page():
 
     smi = 'C[N+](C)(C)C'
     smiles = ['CN', 'CNC', 'CN(C)C', 'C[NH+](C)C']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smi, use_smiles=True)
+    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
     smiles = ['C[N+](C)(C)C', 'C[N+](C)(C)C(C)(C)C', 'C[N+](C)(CC1)C1', 'C[N+](C)(C)c1ccccc1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smi, use_smiles=True, display_substruct=False)
+    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True, display_substruct=False)
 
     st.markdown("""
         As it turns out, the SMILES string `C[N+](C)(C)C` is entirely capable of
@@ -50,7 +50,7 @@ def smarts_1_page():
 
     smi = 'O=C[OH]'
     smiles = ['O=CO', 'CC(=O)O', 'CC(=O)OC']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smi, use_smiles=True)
+    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
 
     st.markdown("""
         As we see, despite putting an `H` on the oxygen of the carboxylic acid,
@@ -70,7 +70,7 @@ def smarts_1_page():
         about carbonates? Would we have to write a unique filtering logic for each substructure?
     """)
     smiles = ['CNC(=O)OC', 'COC(=O)OC']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smi, use_smiles=True)
+    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
 
     st.markdown("""
         This is where SMARTS come to the rescue. SMARTS are similar to SMILES
@@ -80,9 +80,9 @@ def smarts_1_page():
 
     smt = 'O=C[OH]'
     smiles = ['O=CO', 'CC(=O)O', 'CC(=O)OC']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
     smiles = ['CNC(=O)OC', 'COC(=O)OC']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt, display_substruct=False)
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
 
     st.markdown("""
         As we see here, SMARTS is more strict when it comes to counting the
@@ -123,13 +123,13 @@ def smarts_1_page():
 
     smt = 'A'
     smiles = ['CNC', 'c1ocnc1', 'C1NCCC1n1cccc1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     smt = 'a'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     smt = '*'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         As we see, SMARTS strictly separates aliphatic and aromatic atoms. What
@@ -139,13 +139,13 @@ def smarts_1_page():
     """)
 
     smt = 'C'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     smt = 'c'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     smt = '[#6]'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         The last type of "wildcard" isn't really a wildcard but is enabled by
@@ -158,7 +158,7 @@ def smarts_1_page():
 
     smt = '[c,n]1ccccc1'
     smiles = ['c1ccccc1', 'n1ccccc1', 'n1ncccc1', 'n1cncnc1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         And ta-da, just like that we were able to construct our own "wildcard".
@@ -200,9 +200,9 @@ def smarts_1_page():
 
     smt = '[NX4H0+]'
     smiles = ['CN', 'CNC', 'CN(C)C', 'C[NH+](C)C']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
     smiles = ['C[N+](C)(C)C', 'C[N+](C)(C)C(C)(C)C', 'C[N+](C)(CC1)C1', 'C[N+](C)(C)c1ccccc1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt, display_substruct=False)
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
 
     st.markdown("""
         Breaking it down, the `X4` indicates that this `N` has `4` neighbors.
@@ -215,7 +215,7 @@ def smarts_1_page():
 
     smt = '[#7X2]'
     smiles = ['CNC', 'c1ccccc1N', 'CC=N', 'c1nc[nH]c1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         ### Your turn!
@@ -240,7 +240,7 @@ def smarts_1_page():
 
     smt = '[CR]=O'
     smiles = ['CC(=O)C', 'C1CC(=O)CC1', 'c1cccc(C(=O)C2)c12']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         As you see, the `R` indicates that the atom must be in a ring. If we
@@ -249,7 +249,7 @@ def smarts_1_page():
 
     smt = '[C!R]=O'
     smiles = ['CC(=O)C', 'C1CC(=O)CC1', 'c1cccc(C(=O)C2)c12']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         Here we will touch on another powerful feature of SMARTS, we can specify
@@ -259,7 +259,7 @@ def smarts_1_page():
 
     smt = '[NR;X3;H1]'
     smiles = ['CNC', 'CC=N', 'C1N(C)CC1', 'C1NCCC1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         The `R` makes sure that the nitrogen is in a ring, the `X3` ensures that
@@ -275,7 +275,7 @@ def smarts_1_page():
 
     smt = '[NR;r3,r4]'
     smiles = ['C1NC1', 'C1NCC1', 'C1NCCC1', 'C1NCCCC1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         ### Your turn!
@@ -312,7 +312,7 @@ def smarts_2_page():
 
     smt = 'NC=O'
     smiles = ['CNC(=O)C', 'c1ncccc1C(=O)N(C)C', 'CNCC', 'CNC(=N)C']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         As expected, the amides are highlighted while the amine and amidine are
@@ -321,7 +321,7 @@ def smarts_2_page():
     """)
 
     smt = '[N;$(NC=O)]'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
         Again, the amides are selected while the amines and amidines are not.
@@ -339,7 +339,7 @@ def smarts_2_page():
 
     smiles = ['NC=O', 'N=O', 'NS(=O)(=O)', 'Nc1ncccc1']
     labels = ['amide', 'nitroso', 'sulfonamide', '2-aminopyridine']
-    st_display_mol_with_smi(smiles, display_smiles=False, labels=labels)
+    st_display_mol_with_smi(smiles, labels=labels)
 
     st.markdown("""
         We're also primary interested in amines so we'll exclude a few other
@@ -348,7 +348,7 @@ def smarts_2_page():
 
     smiles = ['n1ccccc1', 'N=C']
     labels = ['pyridine', 'imine/amidine/guanidine']
-    st_display_mol_with_smi(smiles, display_smiles=False, labels=labels)
+    st_display_mol_with_smi(smiles, labels=labels)
 
     st.markdown("""
         Now we're ready to put it all together. Here is our final SMARTS string.
@@ -357,9 +357,9 @@ def smarts_2_page():
     exclude = ['NC=[N,O]', 'N=O', 'NS(=O)(=O)', 'Nc1ncccc1', 'N=C']
     smiles = ['CNC(=O)C', 'c1ccccc1[N+](=O)[O-]', 'NS(=O)(=O)C', 'CNc1ncccc1', 'N=CN']
     smt = f'[N;{";".join([f"!$({smi})" for smi in exclude])}]'
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
     smiles = ['CNC', 'CN(C)C', 'CNC(F)(F)F', 'c1ccccc1NC']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt, display_substruct=False)
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
 
     st.markdown("""
         And there we have it, a SMARTS string that's a pretty good filter for
@@ -373,9 +373,9 @@ def smarts_2_page():
 
     smt = '[C;$([CH2]=O),$([CH1](=O)[#6]),$([CH0](=O)([#6])[#6])]'
     smiles = ['C=O', 'CC=O', 'CC(=O)c1ccccc1']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt)
     smiles = ['NC(=O)C', 'OC(=O)C', 'COC(=O)C']
-    st_display_mol_with_smi(smiles, display_smiles=False, substruct=smt, display_substruct=False)
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
 
     st.markdown("""
         This SMARTS contains three recursive definitions:
