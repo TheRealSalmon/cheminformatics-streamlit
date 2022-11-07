@@ -8,12 +8,12 @@ from rdkit.Chem.AllChem import EmbedMolecule, MMFFOptimizeMolecule
 from rdkit_utils import smi_to_svg, smi_to_canon_smi
 
 
-def st_display_mol_with_smi(smiles, substruct='', use_smiles=False, img_size=(150, 100), labels=[]):
-    if substruct != '':
+def st_display_mol_with_smi(smiles, substruct='', use_smiles=False, display_substruct=True, img_size=(150, 100), labels=[]):
+    if substruct != '' and display_substruct:
         if use_smiles:
-            st.markdown(f'substruct SMILES: {substruct.replace(")", "&rpar;")}')
+            st.markdown(f'##### substruct SMILES: `{substruct.replace(")", "&rpar;")}`')
         else:
-            st.markdown(f'substruct SMARTS: {substruct.replace(")", "&rpar;")}')
+            st.markdown(f'##### substruct SMARTS: `{substruct.replace(")", "&rpar;")}`')
     columns = [col for col in st.columns(len(smiles))]
     if len(labels) == 0: labels = [''] * len(smiles)
     for smi, label, col in zip(smiles, labels, columns):
@@ -30,7 +30,7 @@ def st_match_smi_to_mol(smiles, img_size=(150, 100), labels=[], idx_offset=0):
     if len(labels) == 0: labels = [''] * len(smiles)
     for smi, label, col, key_idx in zip(smiles, labels, columns, key_idxs):
         smi_key = f'smi_{key_idx}'
-        button_key = f'button_{key_idx}'
+        button_key = f'button_match_smi_to_mol{key_idx}'
         col.text_input('SMILES:', key=smi_key)
         col.image(smi_to_svg(smi, img_size=img_size))
         if label != '':
@@ -40,6 +40,26 @@ def st_match_smi_to_mol(smiles, img_size=(150, 100), labels=[], idx_offset=0):
                 col.success('Correct!')
         except: pass
         if col.button('Answer', key=button_key): col.info(smi)
+
+def st_check_smarts(smiles_in, smiles_out, answer, prompt, img_size=(150, 100), idx_offset=0):
+    st.write('')
+    st.markdown(f"""
+        ##### {prompt}
+    """)
+    smt_key = f'smt_{idx_offset}'
+    button_key = f'button_check_smarts_{idx_offset}'
+    smt = st.text_input('SMARTS:', key=smt_key)
+    substruct = Chem.MolFromSmarts(smt)
+    st.markdown('***Match these molecules:***')
+    st_display_mol_with_smi(smiles_in, substruct=smt, display_substruct=False, img_size=img_size)
+    st.markdown("""***Don't match these molecules:***""")
+    st_display_mol_with_smi(smiles_out, substruct=smt, display_substruct=False, img_size=img_size)
+    if (
+        sum([Chem.MolFromSmiles(smi).HasSubstructMatch(substruct) for smi in smiles_in]) == len(smiles_in) and
+        sum([Chem.MolFromSmiles(smi).HasSubstructMatch(substruct) for smi in smiles_out]) == 0
+    ):
+        st.success('Correct!')
+    if st.button('Answer', key=button_key): st.info(answer)
 
 def st_display_3dmol(mol):
     mol = Chem.Mol(mol)

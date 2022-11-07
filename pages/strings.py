@@ -1,285 +1,32 @@
 import streamlit as st
 from PIL import Image
 
-from streamlit_utils import st_display_mol_with_smi, st_match_smi_to_mol
+from streamlit_utils import (
+    st_display_mol_with_smi,
+    st_match_smi_to_mol,
+    st_check_smarts,
+)
+
+from pages.strings.intro import intro_page
+from pages.strings.smiles import smiles_page
 
 
-def intro_page():
+def smarts_1_page():
     st.markdown("""
-        # Molecules as Strings
-
-        The first place to start in cheminformatics is with a good attitude and
-        a SMILES ... or a SMARTS or a SMIRKS? Maybe you're feeling a little
-        InChI? And how do you make an InChI into an InChi key?
-
-        There is a plethora of confusing and overlapping string representations
-        that all play their own role in cheminformatics. But no worries, we'll
-        take them on one-by-one.
-
-        Navigate to the next page using the side-bar.
-    """)
-
-
-def smiles_page():
-    IDX_OFFSET = 0
-
-    st.markdown("""
-        # SMILES
-
-        SMILES are a Simplified Molecular Input Line Entry System. In other
-        words, it's a clever way to represent 2D molecules as a 1D
-        string of letters and numbers.
-
-        We will start with an overview of the syntax, and then move on to
-        examples of greater and greater complexity.
-
-        ## Atoms
-
-        Just like molecules, the most important building block of a SMILES is
-        the atom. Atoms are defined by their atomic symbol.
-    """)
-
-    smiles = ['C', 'O', '[H]', '[Zn]', 'c1ccccc1']
-    st_display_mol_with_smi(smiles)
-
-    st.markdown("""
-        In general, just the atomic symbol is sufficient. However, for hydrogen
-        and elements with two-letter atomic symbols, brackets `[H]` are
-        required.
-
-        Atomic symbols usually have their first letter capitalized. However, the
-        first letter may be lowercase if it is aromatic like this benzene.
-    """)
-
-    st.info("""
-        Hydrogen is unique as the only one-letter atom that cannot exist outside
-        of a bracket. This is because SMILES treats hydrogen as a second class
-        citizen and it usually exists as an accessory to a heavy atom.
-    """)
-
-    st.markdown("""
-        SMILES also allows us to specify a few atom-level properties such as:
-        * isotope
-        * &#8203;# of hydrogens
-        * formal charge
-    """)
-
-    smiles = ['C', '[13C]', '[13CH4]', '[CH3+]', '[Fe+2]',]
-    st_display_mol_with_smi(smiles)
-
-    st.markdown("""
-        As we see, specifying atom-level properties requires the use of
-        brackets.
-        * The isotope (superscript numbers) is specified by the numbers that PRECEDE the atomic symbol, ie. `[13C]`.
-        * The # of hydrogens is specified by adding `H#` to the end of the atomic symbol and where # is the number of hydrogens, ie. `[CH3]`.
-        * The formal charge is specified by adding a `+` or `-` after the atomic symbol/# of hydrogens. For multiple charges, an additional number can be put after the charge, ie. `[Fe+2]`.
-    """)
-
-    st.info("""
-        When an atom is specified without brackets, Hs are added implicitly. So
-        `C` gets translated to `[CH4]` automatically. However, once we add
-        brackets, we take complete control of the SMILES string and so we need
-        to manually add the Hs ourselves.
-    """)
-
-    st.markdown("""
-        ### Your turn!
-
-        Write a SMILES string that matches the molecule depicted below.
-        """)
-
-    st.info("""
-        Don't forget that SMILES are CaPs-SeNsItIvE. Uppercase means aliphatic/
-        non-aromatic while lowercase means aromatic.
-    """)
-
-    smiles = ['N', '[H]', '[He]', '[OH-]', '[18OH2]']
-    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        ## Bonds
-
-        After learning to represent atoms, next we come to bonds. Bonds are far
-        simpler than atoms as they come only in 4 categories:
-        * single
-        * double
-        * triple
-        * aromatic
-    """)
-
-    smiles = ['C-C', 'C=C', 'C#C', 'C:C']
-    st_display_mol_with_smi(smiles)
-
-    st.markdown("""
-        ### Your turn!
-    """)
-
-    smiles = ['C=O', 'C#N', 'CC', 'C=C=C']
-    st_match_smi_to_mol(smiles, img_size=(150,100), idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        And there we go! We have the basic language needed to describe simple
-        molecules.
-    """)
-
-    st.info("""
-        You may notice that `CC` and `C-C` are the same thing. This is because
-        SMILES will automatically guess that the missing bond between `C` and
-        `C` is a single bond. This is the same for `cc` and `c:c`. SMILES will
-        guess that the bond between the two aromatic atoms is an aromatic bond.
-    """)
-
-    st.markdown("""
-        ## Linear molecules
-
-        The easiest molecules to represent in SMILES are linear molecules as
-        they can be represented as a simple sequence of atoms and bonds. Here
-        are some common solvents represented as SMILES:
-    """)
-
-    smiles = ['CCO', 'CCCCCC']
-    labels = ['ethanol', 'n-hexane']
-    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
-
-    st.info("""SMILES don't respect "order" so `CCO` or `OCC` are equivalent.""")
-
-    st.markdown("""
-        ### Your turn!
-    """)
-
-    smiles = ['CCOCC', 'COCCOC', 'CC#N']
-    labels = ['diethyl ether', 'glyme', 'acetonitrile']
-    st_match_smi_to_mol(smiles, labels=labels, idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        ## Branched molecules
-
-        As we know, molecules are not always linear and so we need a way to
-        represent branches in molecules. This is done by wrapping the branching
-        atom(s) in parentheses.
-    """)
-
-    smiles = ['ClC(Cl)Cl', 'CN(C)C=O']
-    labels = ['chloroform', 'DMF']
-    st_display_mol_with_smi(smiles, img_size=(200,100), labels=labels)
-
-    st.markdown("""
-        While we represent chloroform as `ClC(Cl)Cl`, it would be just as valid
-        to put `C` first as `C(Cl)(Cl)Cl`. Furthermore, you can put multiple
-        atoms within parentheses, ie. DMF can be both `CN(C)C=O` or `CN(C=O)C`.
-
-        ### Your turn!
-    """)
-
-    smiles = ['CS(=O)C', 'CCOC(=O)C']
-    labels = ['DMSO', 'ethyl acetate']
-    st_match_smi_to_mol(smiles, labels=labels, idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        ## Put a ring on it
-
-        Lastly, we need to be able to represent rings. The way SMILES represents
-        rings is to use numbers *outside* of brackets to denote connection
-        points.
-    """)
-
-    smiles = ['CCC', 'C1CC1', '[CH-]1CC1', 'C1CC1C', 'C1C(C)C1']
-    st_display_mol_with_smi(smiles, img_size=(100,100))
-
-    st.markdown("""
-        As you see, we "closed" the propane by putting `1` after the first and
-        last C of the chain. As illustrated by the deprotonated cyclopropane,
-        the `1` goes outside of the bracket. Lastly, rings can be combined with
-        branching, either by adding atoms to the ring's closing atoms or by
-        using parentheses.
-
-        A special topic within rings is the proper representation of aromatic
-        rings. Aromatic rings are unique in that there are two valid ways to
-        represent them.
-    """)
-
-    smiles = ['C1=CC=CC=C1', 'c1ccccc1', 'N1=CNC=C1', 'n1c[nH]cc1']
-    labels = ['kekulized', 'not kekulized'] * 2
-    st_display_mol_with_smi(smiles, img_size=(150,100), labels=labels)
-
-    st.markdown("""
-        You will likely find that using the *not kekulized* form is more
-        convenient as you don't need to remember where the double bonds in the
-        ring are placed. However, if you have an implicit hydrogen on one of the
-        ring atoms, you *will* need to specify it by replacing `n` with `[nH]`.
-        Otherwise, you will get an error telling you that RDKit is unable to
-        kekulize the molecule.
-
-        Representing a molecule with two rings is done by using both `1` and
-        `2`. Note that `C12` is interpreted as "C one" and "C two" rather than
-        "C twelve". However this is pretty complicated and hopefully you rarely
-        need to try and write bi/tricyclic SMILES by hand.
-    """)
-    smiles = ['C1CCCCN1c2ncccc2', 'c1cccc(cc[nH]2)c12', 'C12CC1C2']
-    st_display_mol_with_smi(smiles, img_size=(150,100))
-
-    st.markdown("""
-        ### Your turn!
-    """)
-
-    smiles = ['C1CC=CCC1', 'N1C(=O)CC1', 'c1c(C)[nH]c(OC)c1']
-    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        ## Chirality
-
-        The last topic to be covered with SMILES is chirality. If the chiral
-        center has a hydrogen, you must specify it as well with `@H` or `@@H`.
-        If the chiral center has no hydrogens, you specify chirality with just a
-        `@` or `@@`. 
-    """)
-
-    smiles = ['CC(F)CC', 'C[C@H](F)CC', 'C[C@@H](F)CC', 'C[C@](F)(Cl)CC', 'C[C@@](Cl)(F)CC']
-    st_display_mol_with_smi(smiles, img_size=(150,100))
-
-    st.markdown("""
-        ### Your turn!
-
-        This one is extra tough, don't worry too much about getting it right but
-        feel free to give it a try.
-    """)
-
-    smiles = ['OC(=O)[C@H](C)N', 'OC(=O)[C@@H](C)N', 'OC(=O)[C@H](CC(C)C)N']
-    st_match_smi_to_mol(smiles, idx_offset=IDX_OFFSET)
-    IDX_OFFSET += len(smiles)
-
-    st.markdown("""
-        ## Conclusion
-
-        Congratulations on reaching the end! Hopefully this was a useful primer
-        on SMILES strings. SMILES may not impress you quite yet, but the more
-        you use them, the more you will appreciate the simplicity and power of
-        representing complex molecules as "simple" 1D sequences of letters,
-        numbers, and symbols. Without such a representation, cheminformatics
-        would be far more complicated and difficult.
-    """)
-
-
-def smarts_page():
-    st.markdown("""
-        # SMARTS
+        # SMARTS Part 1
 
         SMARTS are a SMiles ARbitrary Target Specification. In other words,
         SMARTS are an extension of SMILES that allows even more precise
-        specification of chemical structure.
+        specification of chemical structure. While SMILES focuses on
+        representing molecules, SMARTS focuses on representing substructures.
 
-        We will start with an illustration of why SMARTS are necessary, move to
-        overview of the syntax, and then move on to examples of greater and
-        greater complexity.
+        In Part 1, we will focus on introducing the basic syntax which is
+        somewhat more complicated. In Part 2, however, we will really get to see
+        the power and flexibility of SMARTS.
 
         ## Why SMARTS? Substructure specification is hard.
 
-        In many cases, it's possible to specify the substructure you have in
+        In some cases, it's possible to specify the substructure you have in
         mind with just a SMILES string. For example, quaternary ammoniums can be
         entirely specified with just SMILES.
     """)
@@ -287,16 +34,18 @@ def smarts_page():
     st.info('The highlight indicates a substructure match.')
 
     smi = 'C[N+](C)(C)C'
-    smiles = ['CN', 'CNC', 'CN(C)C', 'C[N+](C)(C)C']
+    smiles = ['CN', 'CNC', 'CN(C)C', 'C[NH+](C)C']
     st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
     smiles = ['C[N+](C)(C)C', 'C[N+](C)(C)C(C)(C)C', 'C[N+](C)(CC1)C1', 'C[N+](C)(C)c1ccccc1']
-    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
+    st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True, display_substruct=False)
 
     st.markdown("""
         As it turns out, the SMILES string `C[N+](C)(C)C` is entirely capable of
         differentiating quaternary ammoniums from primary, secondary, and
-        tertiary amines. However, there are cases where SMILES is insufficient.
-        Consider below the case of separating carboxylic acids from esters.
+        tertiary amines.
+
+        However, there are cases where SMILES is insufficient. Consider below
+        the case of separating carboxylic acids from esters.
     """)
 
     smi = 'O=C[OH]'
@@ -305,81 +54,292 @@ def smarts_page():
 
     st.markdown("""
         As we see, despite putting an `H` on the oxygen of the carboxylic acid,
-        we're unable to separate acids from esters. We *could* solve this with
-        SMILES by using programming logic to require the substructure to match
-        `O=C[OH]` and *not* match `O=COC`. This would filter out esters.
-        However, how would we deal with carbamates? What about carbonates? Would
-        we have to write a unique filtering logic for each substructure?
+        we're unable to separate acids from esters.
+    """)
+
+    st.info("""
+        This is likely caused by the fact that hydrogens in SMILES are
+        second-class citizens in SMILES and are not explicitly matched, even
+        when explicitly written in the SMILES. 
+    """)
+
+    st.markdown("""        
+        We *could* solve this with SMILES by using programming logic to require
+        the substructure to match `O=C[OH]` and *not* match `O=COC`. This would
+        filter out esters. However, how would we deal with carbamates? What
+        about carbonates? Would we have to write a unique filtering logic for each substructure?
     """)
     smiles = ['CNC(=O)OC', 'COC(=O)OC']
     st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
 
     st.markdown("""
-        This is where SMARTS come to the rescue. SMARTS are far more logically
-        rich than SMILES and brings enough specificity to easily handle these
-        problems.
+        This is where SMARTS come to the rescue. SMARTS are similar to SMILES
+        but they are more specific, stricter, and at the same time much more
+        flexible.
     """)
 
     smt = 'O=C[OH]'
     smiles = ['O=CO', 'CC(=O)O', 'CC(=O)OC']
     st_display_mol_with_smi(smiles, substruct=smt)
     smiles = ['CNC(=O)OC', 'COC(=O)OC']
-    st_display_mol_with_smi(smiles, substruct=smt)
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
 
     st.markdown("""
         As we see here, SMARTS is more strict when it comes to counting the
         number of Hs on the oxygen, allowing us to separate carboxylic acids
-        from esters. 
+        from esters.
 
-        Now that we've justified the existence of a *second* string-based
-        molecular representation, let's take a dive into the syntax.
+        Below, we will introduce the SMARTS syntax and hopefully you will be
+        convinced that we really do need a *second* molecular string
+        representation.
 
         ## Atoms
 
         In SMILES we were somewhat restricted in the atomic properties that
         could be specified. However, in SMARTS, the list is much longer:
-        * like SMILES: charge/isotope/# of hydrogens/chirality
+        * already in SMILES: charge/isotope/# of hydrogens/chirality
         * aromatic/aliphatic
         * degree or # of connections
         * valence (sum of bond orders)
         * if atom is part of a ring
         * the size of the ring the atom is in
+        * wildcard
 
-        Let's go through a few examples to illustrate these capabilities. We may
-        be interested in picking anilines from amines. In SMILES, this would
-        require multiple SMILES strings to cover phenyl, pyridyl, pyrrolyl, etc.
-        However, one SMARTS string is sufficient to cover all anilines.
+        We won't go through all these subtopics, instead we will focus on:
+        * aromatic wildcards, aliphatic wildcards, and general wildcards
+        * degree
+        * ring membership and ring size
+
+        ## Wildcards
+
+        The most important topic to start with the is the different ways SMARTS
+        allows us to represent wildcards. Wildcards allow us to specify some
+        flexibility in the molecular structure.
+
+        There are a few types of wildcards in SMARTS. `*` is a general wildcard,
+        it will match *any* atom. `A` will match aliphatic atoms while `a` will
+        match aromatic atoms. 
     """)
 
-    smt = 'Nc'
-    smiles = ['CNC', 'Nc1cccc(C)c1', 'CNc1[nH]ccc1', 'CN(C)c1ncncc1']
+    smt = 'A'
+    smiles = ['CNC', 'c1ocnc1', 'C1NCCC1n1cccc1']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    smt = 'a'
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    smt = '*'
     st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
-        As in SMILES, the lowercase `c` indicates an aromatic carbon. However,
-        unlike SMILES, SMARTS has no need to represent a real molecule. SMARTS
-        is more abstract than SMILES, giving it the flexibility it needs to
-        thoroughly represent substructures.
-
-        Specifying degree is the same as specifying the number of neighbors. For
-        example, we may want to separate carbonyls, `C=O`, from alcohols and
-        ethers, `CO`/`COC`.
+        As we see, SMARTS strictly separates aliphatic and aromatic atoms. What
+        if we wanted a SMARTS atom that matched both aliphatic and aromatic
+        carbons? In that case, we'd need to specify the carbon by using its
+        atomic number, `[#6]`.
     """)
 
-    smt = '[OX2]'
-    smiles = ['CCO', 'c1ccccc1OC', 'CC(C)C(=O)NC']
+    smt = 'C'
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    smt = 'c'
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    smt = '[#6]'
     st_display_mol_with_smi(smiles, substruct=smt)
 
     st.markdown("""
-        Here `X#` is used to specify the number of atoms. `X` indicates that
-        we're talking about degree and the `#` is the number of neighbors the
-        atom should have.
+        The last type of "wildcard" isn't really a wildcard but is enabled by
+        using SMARTS' most powerful feature, logic. We may want a
+        "middle-ground" of flexibility in-between specifying atomic number and
+        using a wildcard. This is where the `,` character comes in.
+
+        What if we want to match benzenes and pyridines but not anything else?
     """)
+
+    smt = '[c,n]1ccccc1'
+    smiles = ['c1ccccc1', 'n1ccccc1', 'n1ncccc1', 'n1cncnc1']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        And ta-da, just like that we were able to construct our own "wildcard".
+        This is where SMARTS shines, giving us the flexibility to specify really
+        whatever any substructure we can think of.
+
+        ### Your turn!
+    """)
+
+    prompt = 'Separate the compounds containing nitrogens from the compounds that do not contain nitrogen.'
+    smiles_in = ['CNCC', 'c1ncccc1', 'C1CCC1C(=O)NNC']
+    smiles_out = ['COCC', 'c1occc1', 'C1CCC1C(=O)OO']
+    answer = '[#7]'
+    st_check_smarts(smiles_in, smiles_out, answer, prompt)
+
+    prompt = 'Separate the 5-membered aromatic rings from the 6-membered aromatic rings.'
+    smiles_in = ['c1occc1', 'c1[nH]ccc1', 'c1sccc1']
+    smiles_out = ['c1ccccc1', 'c1ncccc1', 'c1[o+]cccc1']
+    answer = 'a1aaaa1'
+    st_check_smarts(smiles_in, smiles_out, answer, prompt, idx_offset=1)
+
+    prompt = 'Separate the reactive epoxides and aziridines from the more stable cyclopropanes.'
+    smiles_in = ['c1occc1C1OC1', 'C1CCC(N2)C12', 'CC1N(CC(=O)O)C1C']
+    smiles_out = ['c1occc1C1CC1', 'C1CCC(C2)C12', 'CC1C(CC(=O)O)C1C']
+    answer = 'C1[O,N]C1'
+    st_check_smarts(smiles_in, smiles_out, answer, prompt, idx_offset=2)
+
+    st.markdown("""
+        Hopefully you feel comfortable working with atoms in SMARTS. However,
+        things will only get more and more interesting from here!
+
+        ## Atomic degree
+
+        Let's first start with the example of the quaternary ammonium above. In
+        SMILES we can use `C[N+](C)(C)C`. However, this explicitly writes out
+        each carbon. With SMARTS, we can specify the degree and the # of
+        hydrogens on the `N` to write a more concise substructure string.
+    """)
+
+    smt = '[NX4H0+]'
+    smiles = ['CN', 'CNC', 'CN(C)C', 'C[NH+](C)C']
+    st_display_mol_with_smi(smiles, substruct=smt)
+    smiles = ['C[N+](C)(C)C', 'C[N+](C)(C)C(C)(C)C', 'C[N+](C)(CC1)C1', 'C[N+](C)(C)c1ccccc1']
+    st_display_mol_with_smi(smiles, substruct=smt, display_substruct=False)
+
+    st.markdown("""
+        Breaking it down, the `X4` indicates that this `N` has `4` neighbors.
+        The `H0` says there are no hydrogens on this `N` and the `+` gives us
+        the charge.
+
+        In another case, `X#` can be used to separate imine-like nitrogens from
+        amine-like nitrogens.
+    """)
+
+    smt = '[#7X2]'
+    smiles = ['CNC', 'c1ccccc1N', 'CC=N', 'c1nc[nH]c1']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        ### Your turn!
+
+        Try to solve it using only the `X` keyword.
+    """)
+
+    prompt = 'Separate the carbonyls from the ethers/alcohols.'
+    smiles_in = ['CC=O', 'C1CNC(=O)C1', 'c1c(=O)[nH]ccc1']
+    smiles_out = ['CCO', 'c1ccccc1O', 'C1CC1OCC']
+    answer = '[OX1]'
+    st_check_smarts(smiles_in, smiles_out, answer, prompt, idx_offset=3)
+
+    st.markdown("""
+        ## Ring membership and ring size
+
+        Rings are important in chemistry and many properties differ based on
+        whether the atom is in a ring or not. Thus SMARTS allows us to specify
+        that an atom is in a ring using the `R` keyword and specify the size of
+        the smallest ring an atom is in using the `r` keyword. 
+    """)
+
+    smt = '[CR]=O'
+    smiles = ['CC(=O)C', 'C1CC(=O)CC1', 'c1cccc(C(=O)C2)c12']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        As you see, the `R` indicates that the atom must be in a ring. If we
+        wanted the opposite, we could instead use `!`.
+    """)
+
+    smt = '[C!R]=O'
+    smiles = ['CC(=O)C', 'C1CC(=O)CC1', 'c1cccc(C(=O)C2)c12']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        Here we will touch on another powerful feature of SMARTS, we can specify
+        multiple properties at the same time. Here we can combine the `R`, `X`,
+        and the `H` keywords to specify that we want cyclic *secondary* amines.
+    """)
+
+    smt = '[NR;X3;H1]'
+    smiles = ['CNC', 'CC=N', 'C1N(C)CC1', 'C1NCCC1']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        The `R` makes sure that the nitrogen is in a ring, the `X3` ensures that
+        we only include nitrogens with three neighbors (no imines!), and the
+        `H1` ensures that the nitrogen has 1 hydrogen.
+
+        Above, we showed how the `,` keyword can be used to allow flexibility in
+        the SMARTS atom matching. However, `,` can also be used to allow
+        flexibility in atomic properties as well. For example, we may want
+        nitrogens that are in a three- or four-membered ring but not those in a
+        five-, six-, or larger-membered ring.
+    """)
+
+    smt = '[NR;r3,r4]'
+    smiles = ['C1NC1', 'C1NCC1', 'C1NCCC1', 'C1NCCCC1']
+    st_display_mol_with_smi(smiles, substruct=smt)
+
+    st.markdown("""
+        ### Your turn!
+    """)
+
+    prompt = 'Separate the cyclic ethers from the acyclic ethers.'
+    smiles_in = ['C1OC1', 'C1OC=CC1', 'c1cccc2c1OCC2']
+    smiles_out = ['COC', 'COC=CC', 'c1ccccc1OC']
+    answer = '[#6][OR][#6]'
+    st_check_smarts(smiles_in, smiles_out, answer, prompt, idx_offset=4)
+
+# def smarts_2_page():
+#     st.markdown("""
+#         ## Recursion
+
+#         If we could only specify atom and bond properties, SMARTS would be
+#         interesting but somewhat insufficient. Chemical patterns are very
+#         complex and often, one SMART is insufficient to fully capture the
+#         substructure we are trying to describe. This is where recursion comes
+#         in. Recursion is like inception, a SMARTS string *within* a SMARTS
+#         string. First we will go through the basics, then we will see a few
+#         advanced examples. Then you will really be wowed by the power of SMARTS.
+
+#         To start, we'll use a very simple case of recursion which is not very
+#         useful but is a nice and simple starting point.
+#     """)
+
+#     smt = 'NC=O'
+#     smiles = ['CNC(=O)C', 'c1ncccc1C(=O)N(C)C', 'CNCC', 'CNC(=N)C']
+#     st_display_mol_with_smi(smiles, substruct=smt)
+
+#     st.markdown("""
+#         As expected, the amides are highlighted while the amine and amidine are
+#         not. However, with the power of recursion, the SMARTS can be rewritten
+#         using the `$(...)` format.
+#     """)
+
+#     smt = '[N;$(NC=O)]'
+#     st_display_mol_with_smi(smiles, substruct=smt)
+
+#     st.markdown("""
+#         Again, the amides are selected while the amines and amidines are not.
+#         However, there is a key difference that only the nitrogen is highlighted
+#         rather than highlighting the entire amide. Sometimes you do want the
+#         entire substructure to be selected and sometimes you might only want one
+#         atom, maybe the reactive atom, to be highlighted.
+
+#         Now let's turn it around. Now that we have some power of recursion,
+#         let's think about how we can use it to specify basic amines. Of course
+#         writing a SMARTS that can *actually* tell us if an amine is likely basic
+#         is kind of impossible. However, we can rule out some obvious
+#         substructures.
+#     """)
+
+#     smiles = ['NC=O', 'N=O', 'NS(=O)(=O)', 'Nc1naaaa1']
+#     labels = ['amide', 'nitroso', 'sulfonamide', '2-aminopyridine']
+#     st_display_mol_with_smi(smiles, labels=labels)
+
 
 subpages = [
     ('0 - intro', intro_page),
     ('1 - SMILES', smiles_page),
-    ('2 - SMARTS', smarts_page),
+    ('2 - SMARTS Part 1', smarts_1_page),
+    # ('3 - SMARTS Part 2', smarts_2_page),
 ]
 st.sidebar.markdown('## sub-topics')
 subpage = st.sidebar.selectbox(
