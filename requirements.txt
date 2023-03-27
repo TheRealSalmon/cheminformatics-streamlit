@@ -1,4 +1,0 @@
-rdkit
-stmol
-py3Dmol
-streamlit-ace

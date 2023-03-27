@@ -2,7 +2,8 @@ import streamlit as st
 
 
 def intro_page():
-    st.markdown("""
+    st.markdown(
+        """
         # Molecules as Strings
 
         The first place to start in cheminformatics is with a good attitude and
@@ -14,4 +15,5 @@ def intro_page():
         take them on one-by-one.
 
         Navigate to the next page using the side-bar.
-    """)
+    """
+    )
