@@ -21,7 +21,7 @@ def smiles_page():
 
         Just like molecules, the most important building block of a SMILES is
         the atom. In SMILES, atoms are defined by their atomic symbol.
-    """
+        """
     )
 
     smiles = ["C", "O", "[H]", "[Zn]", "c1ccccc1"]
@@ -32,7 +32,7 @@ def smiles_page():
         In general, just the atomic symbol is sufficient. However, for hydrogen
         and elements with two-letter atomic symbols, brackets `[H]` are
         required.
-    """
+        """
     )
 
     st.info(
@@ -40,7 +40,7 @@ def smiles_page():
         Hydrogen is unique as the only one-letter atom that cannot exist outside
         of a bracket. This is because SMILES treats hydrogen as a second class
         citizen and it usually exists as an accessory to a heavy atom.
-    """
+        """
     )
 
     st.markdown(
@@ -52,7 +52,7 @@ def smiles_page():
         * isotope: `[#C]`
         * &#8203;# of hydrogens: `[CH#]`
         * formal charge: `[C+#]`
-    """
+        """
     )
 
     smiles = [
@@ -83,7 +83,7 @@ def smiles_page():
         """
         Don't forget that SMILES are CaPs-SeNsItIvE. Uppercase means aliphatic/
         non-aromatic while lowercase means aromatic.
-    """
+        """
     )
 
     smiles = ["N", "[H]", "[He]", "[OH-]", "[18OH2]"]
@@ -99,7 +99,7 @@ def smiles_page():
         * double
         * triple
         * aromatic
-    """
+        """
     )
 
     smiles = ["C-C", "C=C", "C#C", "C:C"]
@@ -108,7 +108,7 @@ def smiles_page():
     st.markdown(
         """
         ### Your turn!
-    """
+        """
     )
 
     smiles = ["C=O", "C#N", "CC", "C=C=C"]
@@ -127,7 +127,7 @@ def smiles_page():
         The easiest molecules to represent in SMILES are linear molecules as
         they can be represented as a simple sequence of atoms and bonds. Here
         are some common solvents represented as SMILES:
-    """
+        """
     )
 
     smiles = ["CCO", "CCCCCC"]
@@ -143,7 +143,7 @@ def smiles_page():
     st.markdown(
         """
         ### Your turn!
-    """
+        """
     )
 
     smiles = ["CCOCC", "COCCOC", "CC#N"]
@@ -158,7 +158,7 @@ def smiles_page():
         As we know, molecules are not always linear and so we need a way to
         represent branches in molecules. This is done by wrapping the branching
         atom(s) in parentheses.
-    """
+        """
     )
 
     smiles = ["ClC(Cl)Cl", "CN(C)C=O"]
@@ -177,7 +177,7 @@ def smiles_page():
         string.
 
         ### Your turn!
-    """
+        """
     )
 
     smiles = ["CS(=O)C", "CCOC(=O)C"]
@@ -192,7 +192,7 @@ def smiles_page():
         Lastly, we need to be able to represent rings. The way SMILES represents
         rings is to use numbers *outside* of brackets to denote connection
         points.
-    """
+        """
     )
 
     smiles = ["CCC", "C1CC1", "[CH-]1CC1", "C1CC1C", "C1C(C)C1"]
@@ -209,7 +209,7 @@ def smiles_page():
         A special topic within rings is the proper representation of aromatic
         rings. Aromatic rings are unique in that there are two valid ways to
         represent them.
-    """
+        """
     )
 
     smiles = ["C1=CC=CC=C1", "c1ccccc1", "N1=CNC=C1", "n1c[nH]cc1"]
@@ -231,7 +231,7 @@ def smiles_page():
         `2`. Note that `C12` is interpreted as "C one" and "C two" rather than
         "C twelve". However this is pretty complicated and hopefully you rarely
         need to try and write bi/polycyclic SMILES by hand.
-    """
+        """
     )
     smiles = ["C1CCCCN1c2ncccc2", "c1cccc(cc[nH]2)c12", "C12CC1C2"]
     st_display_mol_with_smi(smiles, display_smiles=True, img_size=(150, 100))
@@ -239,7 +239,7 @@ def smiles_page():
     st.markdown(
         """
         ### Your turn!
-    """
+        """
     )
 
     smiles = ["C1CC=CCC1", "N1C(=O)CC1", "c1c(C)[nH]c(OC)c1"]
@@ -254,7 +254,7 @@ def smiles_page():
         center has a hydrogen, you must specify the hydrogen too with `@H` or
         `@@H`. If the chiral center has no hydrogens, you specify chirality with
         just a `@` or `@@`.
-    """
+        """
     )
 
     smiles = [
@@ -269,7 +269,7 @@ def smiles_page():
     st.markdown(
         """
         ### Your turn!
-    """
+        """
     )
 
     smiles = ["OC(=O)[C@H](C)N", "OC(=O)[C@@H](C)N", "OC(=O)[C@H](CC(C)C)N"]
@@ -286,5 +286,5 @@ def smiles_page():
         representing complex molecules as "simple" 1D sequences of letters,
         numbers, and symbols. Without such a representation, cheminformatics
         would be far more complicated and difficult.
-    """
+        """
     )

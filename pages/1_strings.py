@@ -1,6 +1,6 @@
 import streamlit as st
 
-from pages.strings.intro import intro_page
+from pages.strings.introduction import intro_page
 from pages.strings.smarts import smarts_1_page, smarts_2_page
 from pages.strings.smiles import smiles_page
 from pages.strings.smirks import smirks_1_page
@@ -17,4 +17,5 @@ subpage = st.sidebar.selectbox(
     "select page", subpages, format_func=lambda x: x[0]
 )
 st.sidebar.markdown("---")
-subpage[1]()
+if subpage is not None:
+    subpage[1]()

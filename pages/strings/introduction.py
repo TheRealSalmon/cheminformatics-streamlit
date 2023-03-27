@@ -15,5 +15,5 @@ def intro_page():
         take them on one-by-one.
 
         Navigate to the next page using the side-bar.
-    """
+        """
     )

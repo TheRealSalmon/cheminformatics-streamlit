@@ -22,7 +22,7 @@ def smirks_1_page():
 
         Let's start by looking at one of the simplest reaction in organic
         chemistry, the reaction of methyl bromide with sodium ethoxide.
-    """
+        """
     )
 
     reactants = ["CBr", "[O-]CC"]
@@ -41,7 +41,7 @@ def smirks_1_page():
             * the format is `[reactants]>[reagents]]>[products]
         * you must give the atom mapping (reactant atoms to product atoms)
             * the format is `:#` where `#` is the atom number
-    """
+        """
     )
 
     smk = "[C:1][Br:2].[O-:3][C:4][C:5]>>[C:1][O-0:3][C:4][C:5].[Br-:2]"
@@ -70,7 +70,7 @@ def smirks_1_page():
         For example, we actually don't need to include all the atoms on the
         ethoxide. We don't need both atoms `4` and `5`, we only actually need
         `4`.
-    """
+        """
     )
 
     smk = "[C:1][Br:2].[O-:3][C:4]>>[C:1][O-0:3][C:4].[Br-:2]"
@@ -80,7 +80,7 @@ def smirks_1_page():
         """
         This is because atom `5` is not involved in the reaction. We should also
         rewrite this SMIRKS to ignore the by-product bromide ion.
-    """
+        """
     )
 
     smk = "[C:1]Br.[O-:3][C:4]>>[C:1][O-0:3][C:4]"
@@ -96,7 +96,7 @@ def smirks_1_page():
         I know that writing SMIRKS is somewhat more tedious than SMILES or
         SMARTS. But I would strongly encourage you to give these a serious try
         before reaching for the answer button.
-    """
+        """
     )
 
     prompt = "Reaction: Etherification"
@@ -118,7 +118,7 @@ def smirks_1_page():
         What makes SMIRKS really powerful is the power of SMARTS that it
         inherits. For example, what if we wanted a SMIRKS that could capture
         reaction of alkoxides with methyl chloride and bromide?
-    """
+        """
     )
 
     smk = "[C:1][Cl,Br].[O:2][C:3]>>[C:1][O:2][C:3]"
@@ -136,7 +136,7 @@ def smirks_1_page():
         What if we wanted to go the other way and add some restrictions to our
         SMIRKS? For example this SMIRKS allows tert-butyl alcohol to react but
         we know that SN2 is less likely for hindered nucleophiles.
-    """
+        """
     )
 
     smk = "[C:1][Cl,Br].[O:2][C:3]>>[C:1][O:2][C:3]"
@@ -150,7 +150,7 @@ def smirks_1_page():
         """
         What if we wanted to exclude t-butyl alcohols? We could add in some
         SMARTS properties to `[C:3]`.
-    """
+        """
     )
 
     smk = "[C:1][Cl,Br].[O:2][C;!H0:3]>>[C:1][O:2][C:3]"
@@ -166,7 +166,7 @@ def smirks_1_page():
         the t-butyl alcohol as that particular carbon has no hydrogens. However,
         it's not that simple, what about phenols? Our SMIRKS excludes phenols
         but we know that phenols should be able to react.
-    """
+        """
     )
 
     reactants = ["CCBr", "Oc1ccccc1"]
@@ -188,7 +188,7 @@ def smirks_1_page():
 
         This can be fixed by using `#6` in place of `C` and using recursion to
         aliphatic carbon logic from aromatic carbon logic.
-    """
+        """
     )
 
     smk = "[C:1][Cl,Br].[O:2][#6;$([C!H0]),$(c):3]>>[C:1][O:2][#6:3]"
@@ -208,7 +208,7 @@ def smirks_1_page():
         a chemical reaction into a sequence of letters, numbers, and symbols.
 
         ### Your turn!
-    """
+        """
     )
 
     prompt = "Reaction: SNAr of aryl fluorides."
@@ -252,5 +252,5 @@ def smirks_1_page():
         * exchanging between different tautomers
         * virtually deprotecting molecules
         * building virtual compound libraries
-    """
+        """
     )

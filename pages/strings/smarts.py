@@ -24,7 +24,7 @@ def smarts_1_page():
         In some cases, it is possible to specify the substructure you have in
         mind with just a SMILES string. For example, quaternary ammoniums can be
         entirely specified with just SMILES.
-    """
+        """
     )
 
     smi = "C[N+](C)(C)C"
@@ -48,7 +48,7 @@ def smarts_1_page():
 
         However, there are cases where SMILES is insufficient. Consider below
         the case of separating carboxylic acids from esters.
-    """
+        """
     )
 
     smi = "O=C[OH]"
@@ -59,14 +59,14 @@ def smarts_1_page():
         """
         As we see, despite putting an `H` on the oxygen of the carboxylic acid,
         we're unable to separate acids from esters.
-    """
+        """
     )
 
     st.info(
         """
         Despite being explicitly written into the SMILES as `[OH]`, RDKit does
         not explicitly match the `H` when checking substructures.
-    """
+        """
     )
 
     st.markdown(
@@ -76,7 +76,7 @@ def smarts_1_page():
         filter out esters. However, how would we deal with carbamates? What
         about carbonates? Wouldn't we have to write a unique filtering logic for
         each substructure?
-    """
+        """
     )
     smiles = ["CNC(=O)OC", "COC(=O)OC"]
     st_display_mol_with_smi(smiles, substruct=smi, use_smiles=True)
@@ -86,7 +86,7 @@ def smarts_1_page():
         This is where SMARTS come to the rescue. SMARTS are similar to SMILES
         but they have the characteristics of being more flexible *and* more
         specific.
-    """
+        """
     )
 
     smt = "O=C[OH]"
@@ -126,7 +126,7 @@ def smarts_1_page():
         * `A` will match aliphatic atoms.
         * `a` will match aromatic atoms.
         * `*` is a general wildcard, it will match *any* atom.
-    """
+        """
     )
 
     smt = "A"
@@ -144,7 +144,7 @@ def smarts_1_page():
         SMARTS strictly separates aliphatic and aromatic atoms. For example,
         with carbon, `C` only matches aliphatic carbons while `c` matches
         aromatic carbons.
-    """
+        """
     )
 
     smt = "C"
@@ -158,7 +158,7 @@ def smarts_1_page():
         However, what if we wanted a SMARTS atom that matched both aliphatic
         and aromatic carbons? In that case, we can specify the carbon by using
         its atomic number, `[#6]`.
-    """
+        """
     )
 
     smt = "[#6]"
@@ -172,7 +172,7 @@ def smarts_1_page():
         This is where the `,` character comes in.
 
         What if we want to match benzenes and pyridines but not anything else?
-    """
+        """
     )
 
     smt = "[c,n]1ccccc1"
@@ -185,7 +185,7 @@ def smarts_1_page():
         only. However, this is just the beginning of SMARTS logic!
 
         ### Your turn!
-    """
+        """
     )
 
     prompt = (
@@ -223,7 +223,7 @@ def smarts_1_page():
         we can use `C[N+](C)(C)C`. However, this explicitly writes out each
         carbon. With SMARTS, we can specify the degree and the # of hydrogens on
         the `N` to write a more concise substructure string.
-    """
+        """
     )
 
     smt = "[NX4H0+]"
@@ -245,14 +245,14 @@ def smarts_1_page():
 
         In another case, `X#` can be used to separate imine-like nitrogens from
         amine-like nitrogens.
-    """
+        """
     )
 
     st.info(
         """
         The `X` keyword counts the number of hydrogen and non-hydrogen
         connections.
-    """
+        """
     )
 
     smt = "[#7X2]"
@@ -264,7 +264,7 @@ def smarts_1_page():
         ### Your turn!
 
         Try to solve these problems using only the `X` keyword.
-    """
+        """
     )
 
     prompt = "Separate the carbonyls from the ethers/alcohols."
@@ -281,7 +281,7 @@ def smarts_1_page():
         whether the atom is in a ring or not. Thus SMARTS allows us to specify
         that an atom is in a ring using the `R` keyword and specify the size of
         the smallest ring an atom is in using the `r` keyword.
-    """
+        """
     )
 
     smt = "[CR]=O"
@@ -292,7 +292,7 @@ def smarts_1_page():
         """
         As you see, the `R` indicates that the atom must be in a ring. If we
 
-    """
+        """
     )
 
     smt = "[C!R]=O"
@@ -304,14 +304,14 @@ def smarts_1_page():
         Here we will touch on another powerful feature of SMARTS, we can specify
         multiple properties at the same time. Here we can combine the `R`, `X`,
         and the `H` keywords to specify that we want cyclic *secondary* amines.
-    """
+        """
     )
 
     st.info(
         """
         In SMARTS, `;` is used to mean AND. Here we use `;` to join multiple
         atom properties together.
-    """
+        """
     )
 
     smt = "[NR;X3;H1]"
@@ -329,7 +329,7 @@ def smarts_1_page():
         flexibility in atomic properties as well. For example, we may want
         nitrogens that are in a three- or four-membered ring but not those in a
         five-, six-, or larger-membered ring.
-    """
+        """
     )
 
     smt = "[NR;r3,r4]"
@@ -339,7 +339,7 @@ def smarts_1_page():
     st.markdown(
         """
         ### Your turn!
-    """
+        """
     )
 
     prompt = "Separate the cyclic ethers from the acyclic ethers."
@@ -371,7 +371,7 @@ def smarts_2_page():
 
         To start, we'll use a very simple case of recursion which is not very
         useful but is a nice and simple starting point.
-    """
+        """
     )
 
     smt = "NC=O"
@@ -383,7 +383,7 @@ def smarts_2_page():
         As expected, the amides are highlighted while the amine and amidine are
         not. However, with the power of recursion, the SMARTS can be rewritten
         using the `$(...)` format.
-    """
+        """
     )
 
     smt = "[N;$(NC=O)]"
@@ -402,7 +402,7 @@ def smarts_2_page():
         writing a SMARTS that can *actually* tell us if an amine is likely basic
         is kind of impossible. However, we can rule out some obvious
         substructures using recursion.
-    """
+        """
     )
 
     smiles = ["NC=O", "N=O", "NS(=O)(=O)", "Nc1ncccc1"]
@@ -413,7 +413,7 @@ def smarts_2_page():
         """
         We're also primary interested in amines so we'll exclude a few other
         commonly basic nitrogen substructures.
-    """
+        """
     )
 
     smiles = ["n1ccccc1", "N=C"]
@@ -423,7 +423,7 @@ def smarts_2_page():
     st.markdown(
         """
         Now we're ready to put it all together. Here is our final SMARTS string.
-    """
+        """
     )
 
     exclude = ["NC=[N,O]", "N=O", "NS(=O)(=O)", "Nc1ncccc1", "N=C"]
@@ -448,7 +448,7 @@ def smarts_2_page():
 
         This is just the beginning, things can get way crazier! What about
         writing a SMARTS that includes both aldehydes and ketones?
-    """
+        """
     )
 
     smt = "[C;$([CH2]=O),$([CH1](=O)[#6]),$([CH0](=O)([#6])[#6])]"
@@ -469,7 +469,7 @@ def smarts_2_page():
         esters, amides, etc.
 
         ### Your turn!
-    """
+        """
     )
 
     prompt = (
