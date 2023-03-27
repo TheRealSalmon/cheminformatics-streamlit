@@ -1,6 +1,8 @@
 name: interactive-cheminformatcs
 dependencies:
-  - rdkit
-  - stmol
-  - py3Dmol
-  - streamlit-ace
+  - python
+  - pip:
+    - rdkit
+    - stmol
+    - py3Dmol
+    - streamlit-ace
