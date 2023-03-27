@@ -1,6 +1,7 @@
-name: interactive-cheminformatcs
+name: interactive-cheminformatics
 dependencies:
   - python
+  - pip
   - pip:
     - rdkit
     - stmol
