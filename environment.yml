@@ -3,7 +3,8 @@ dependencies:
   - python
   - pip
   - pip:
+    - jupyter
+    - py3Dmol
     - rdkit
     - stmol
-    - py3Dmol
     - streamlit-ace
