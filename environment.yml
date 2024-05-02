@@ -3,6 +3,7 @@ dependencies:
   - python
   - pip
   - pip:
+    - ipython_genutils
     - jupyter
     - py3Dmol
     - rdkit
